@@ -1,0 +1,90 @@
+{-# LANGUAGE ParallelListComp #-}
+module Lib
+    ( muls, divs, pows, facts, signs, ileave, splice, sint,
+      tx, mysin, flatten, innerProduct, dedup, vigenereEnc, vigenereDec
+    ) where
+
+import Data.Char
+
+muls :: Num a => [a] -> [a] -> [a]
+muls (h1:t1) (h2:t2)  = h1*h2:(muls t1 t2)
+
+divs :: RealFloat a => [a] -> [a] -> [a]
+divs (h1:t1) (h2:t2)  = h1/h2:(divs t1 t2)
+
+-- powers of x from 0 : [x^0,x^1,x^2,x^3,...
+pows :: Num t => t -> [t]
+pows x  = 1:muls (repeat x) (pows x)
+
+-- all the factorials [0!,1!,2!,3!,....
+facts :: [Double]
+facts = 1 : aux where aux = 1 : muls [2..] aux
+
+-- alternating signs [1,-1,1,-1,1,-1,....
+signs :: [Double]
+signs = cycle [1,-1]
+
+-- interleave two stream [a0,a1.. and [b0,b1... to get [a0,b0,a1,b1....
+ileave :: [a] -> [a] -> [a]
+ileave (h1:t1) (h2:t2) = h1:h2:ileave t1 t2
+
+-- splice a stream [a0,a1,a2,a3,a4... to [a0,a2,a4....
+splice :: [a] -> [a]
+splice (a:b:t) = a:splice t
+
+-- the stream of cofficients for the sine terms! 
+sint :: [Double]
+sint = muls signs (splice coef)
+  where coef = divs (repeat 1) (tail facts)
+
+-- this is a stream of evaluated terms at x as well, but powers are streams too
+tx :: Double -> [Double]
+tx x  = [ c * p | p <- splice $ tail $ pows x | c <- sint ]
+  
+-- mysin :: Int -> Double -> Double
+-- mysin n x = sum $ take n (tx x)
+
+mysin ::  Int -> Double -> Double
+mysin n x = sum $ take n $ (tx x)
+
+-- Vanilla flattening of list of lists
+flatten :: [[a]] -> [a]
+flatten [] = []
+flatten (h:t) = h ++ flatten t
+
+-- innerproduct of two vectors of the same length. 2 implementation shown
+innerProduct :: Num a => [a] -> [a] -> a
+innerProduct [] [] = 0
+innerProduct (a:as) (b:bs) = a*b + innerProduct as bs
+innerProduct' :: Num a => [a] -> [a] -> a
+innerProduct' a b = sum [ x*y | x <- a | y <- b]
+
+-- remove all duplicates (keep only one copy of each value. Can be O(n^2). From first principles.
+dedup :: Eq a => [a] -> [a]
+dedup [] = []
+dedup (h:t) = h:dedup (strip h t)
+  where strip v [] = []
+        strip v (h:t) | v == h = strip v t
+                      | otherwise = h:strip v t
+
+encodeChar :: Char -> Char -> Char
+encodeChar k ch = let ac = ord ch + ord k - 2 * ord 'a'
+                  in chr $ ord 'a' + (ac `mod` 26)
+
+decodeChar :: Char -> Char -> Char
+decodeChar k ch = let ac = ord ch - ord k 
+                  in chr $ ord 'a' + (ac `mod` 26)                            
+
+vigenere :: (Char -> Char -> Char) -> [Char] -> String -> String
+vigenere coder key text  = unwords $ codeWords (cycle key) $ words text
+  where codeWords state []    = []
+        codeWords state (w:t) = let (newState,we) = wordEnc state w
+                                in we:(codeWords newState t)
+        wordEnc key []         = (key,[])
+        wordEnc (k:key) (c:cs) = let (state,enc) = wordEnc key cs
+                                 in (state,coder k c:enc)
+
+vigenereEnc = vigenere encodeChar
+vigenereDec = vigenere decodeChar
+
+                           
