@@ -1,5 +1,5 @@
 # SeniorDesignProject
 
-Test:
+Tests:
 
-Henry Levinson
+1.) Henry Levinson
