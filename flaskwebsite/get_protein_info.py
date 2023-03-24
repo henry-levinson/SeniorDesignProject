@@ -27,7 +27,9 @@ def get_protein_info(protein_id):
                 pdb_info == "Y"
                 pdb_id = dbReference["id"]
             
-        return {"UniProtKB AC": ac, "UniProtKB ID": uniprot_id, "Gene Name": gene_name,
+        return {"UniProtKB AC": ac, 
+                "UniProtKB ID": uniprot_id, 
+                "Gene Name": gene_name,
                 "Description": description, 
                 "Ensembl": ensembl, 
                 "HGNC": hgnc,
