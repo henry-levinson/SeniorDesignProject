@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Target Annotation</title>
+    <link rel="stylesheet" href="{{ url_for('static',    filename='css/home.css') }}">
+    <script src="{{url_for('static', filename='javascript/home.js')}}"></script>
   </head>
   <body>
     {% extends "template.html" %}
@@ -10,6 +12,12 @@
     
     <h1> Target Annotation </h1>
     <p> Welcome to Target Portal for annotation of useful information from research publications </p>
+
+    <div>
+      <a href="{{ url_for('about') }}"><button>About</button></a>
+      <a href="{{ url_for('base') }}"><button>Target List</button></a>
+      <a href="{{ url_for('guide') }}"><button>User Guide</button></a>
+    </div>
     
     {% endblock %}
   </body>
