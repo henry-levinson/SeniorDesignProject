@@ -9,7 +9,7 @@ def get_value(key, protein_info):
     
 def get_gene_name(protein_info):
     genes = get_value("genes", protein_info)
-    if len(genes) > 0:
+    if genes and len(genes) > 0:
         gene_name = get_value("geneName", genes[0])
         if gene_name:
             value = get_value("value", gene_name)
@@ -65,8 +65,8 @@ def get_protein_info(protein_id):
                 elif get_value("database", dbReference) == "PDB" in protein_info["uniProtKBCrossReferences"]:
                     pdb_info = "Y"
                     pdb_id = get_value("id", dbReference)
-         
-        return protein_info_to_dataframe({
+        
+        protein_df = info_to_dataframe({
             "UNIPROTKB_AC": ac, 
             "UNIPROTKB_ID": uniprot_id, 
             "Gene Name": gene_name,
@@ -77,12 +77,37 @@ def get_protein_info(protein_id):
             "PDB ID": pdb_id,
             "GTEx": gtex,
             "ExpresionAltas": ExpresionAltas
-            }), []
+            })
+         
+        pubs_df_list = []
+        for pub in protein_info["references"]:
+            citation = get_value("citation", pub)
+            if citation:
+                pub_name = get_value("title", citation)
+                pub_id = get_value("id", citation)
+
+                author_l = get_value("authors", citation)
+                if author_l:
+                    authors = ', '.join(author_l)
+                else:
+                    authors = ', '.join(get_value("authoringGroup", citation))
+
+                pub_df = info_to_dataframe({
+                    "UNIPROTKB_AC": ac, 
+                    "PUBLICATION_NAME": pub_name,
+                    "PUBLICATION_ID": pub_id,
+                    "AUTHORS": authors,
+                    "SCORE": -1
+                })
+                pubs_df_list.append(pub_df)
+
+
+        return protein_df, pubs_df_list
     else:
         raise Exception(f"Failed to retrieve protein information for {protein_id}")
 
 
-def protein_info_to_dataframe(protein_info):
+def info_to_dataframe(protein_info):
     return pd.DataFrame([protein_info])
 
 
@@ -91,5 +116,5 @@ if __name__ == "__main__":
     protein_id = "Q9Y2J0"
     # protein_id = "123"
     protein_info = get_protein_info(protein_id)
-    df = protein_info_to_dataframe(protein_info)
+    df = info_to_dataframe(protein_info)
     print(df)
