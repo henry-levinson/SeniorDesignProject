@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import pandas as pd
+import psycopg2
 
 app = Flask(__name__)
 
@@ -13,11 +13,24 @@ def about():
 
 @app.route('/base')
 def base():
-    # Read data from file
-    df = pd.read_csv('data.csv')
-    # Convert dataframe to list of rows
-    dataframe = df.values.tolist()
-    return render_template('base.html', dataframe=dataframe)
+    # Connect to the PostgreSQL database
+    conn = psycopg2.connect(
+        host="your_host",
+        database="your_database",
+        user="your_username",
+        password="your_password"
+    )
+
+    # Retrieve the data from the database
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM my_table")
+    data = cur.fetchall()
+
+    # Create the context dictionary
+    context = {'my_data': data}
+
+    # Render the template and pass in the context dictionary
+    return render_template('base.html', **context)
 
 @app.route('/guide')
 def guide():
