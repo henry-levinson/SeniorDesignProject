@@ -68,7 +68,7 @@ def populate_db():
     engine = create_engine(f'postgresql://{username}:{password}@{host}:{port}/{database_name}')
 
     # offset = 0
-    offset = random.randint(0, 30000)
+    offset = random.randint(0, 30000)  #used for testing
     size = 100      # size 500 reccommended by website, smaller value for testing
     while True:
         requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&isoform=1"
