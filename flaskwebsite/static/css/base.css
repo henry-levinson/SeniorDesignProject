@@ -1,4 +1,31 @@
-div.dataTables_wrapper {
-    width: 800px;
-    margin: 0 auto;
-}
+/* styles.css */
+.center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .dataframe {
+    font-family: Arial, sans-serif;
+    width: 100%; /* Update width to 100% to make it responsive */
+    max-width: 80%; /* Set a maximum width for larger screens */
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: auto; /* Center the table horizontally on the screen */
+    margin-right: auto;
+  }
+  
+  .dataframe th,
+  .dataframe td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .dataframe th {
+    background-color: #f2f2f2;
+  }
+  
+  .scrollable {
+    overflow-x: auto;
+  }
+  
