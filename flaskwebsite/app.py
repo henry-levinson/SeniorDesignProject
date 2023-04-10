@@ -24,7 +24,7 @@ def base():
 
     # Retrieve the data from the database
     cur = conn.cursor()
-    cur.execute("SELECT * FROM books")
+    cur.execute("SELECT * FROM \"PROTEIN_INFO\"")
     data = cur.fetchall()
 
     # Create the context dictionary
