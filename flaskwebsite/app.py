@@ -17,22 +17,32 @@ def base():
     conn = psycopg2.connect(
         host="localhost",
         database="flask_db",
-        # user=os.environ['DB_USERNAME'],
-        # password=os.environ['DB_PASSWORD']
-        user = "postgres",
-        password = "123")
+        user="postgres",
+        password="123")
 
     # Retrieve the data from the database
     cur = conn.cursor()
     cur.execute("SELECT * FROM \"PROTEIN_INFO\"")
     data = cur.fetchall()
 
+    # Calculate offset based on current page number and rows per page
+    page_number = 1  # Replace with actual page number
+    rows_per_page = 25  # Replace with actual rows per page
+    offset = (page_number - 1) * rows_per_page
+
+    # Define limit as number of rows per page
+    limit = rows_per_page
+
+    # Calculate start and stop values based on offset and limit
+    start = offset
+    stop = offset + limit
+
     # Create the context dictionary
-    # context = {'my_data': data}
-    context = {'base': data}
+    context = {'base': data, 'start': start, 'stop': stop}
 
     # Render the template and pass in the context dictionary
     return render_template('base.html', **context)
+
 
 @app.route('/guide')
 def guide():
