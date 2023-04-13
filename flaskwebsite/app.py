@@ -1,7 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from flask_paginate import Pagination, get_page_args
 import psycopg2
 
 app = Flask(__name__)
+
+# Connect to the PostgreSQL database
+conn = psycopg2.connect(
+    host="localhost",
+    database="flask_db",
+    user="postgres",
+    password="123"
+)
+
+# Retrieve the data from the database
+cur = conn.cursor()
+cur.execute("SELECT * FROM \"PROTEIN_INFO\"")
+data = cur.fetchall()
+total = len(data)
 
 @app.route('/')
 def home():
@@ -11,28 +26,16 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/base')
+@app.route('/base', methods=['GET'])
 def base():
-    # Connect to the PostgreSQL database
-    conn = psycopg2.connect(
-        host="localhost",
-        database="flask_db",
-        # user=os.environ['DB_USERNAME'],
-        # password=os.environ['DB_PASSWORD']
-        user = "postgres",
-        password = "123")
+    page = request.args.get('page', type=int, default=1)
+    per_page = request.args.get('per_page', type=int, default=10)
+    offset = (page - 1) * per_page
+    pagination_data = data[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='bootstrap4')
 
-    # Retrieve the data from the database
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM books")
-    data = cur.fetchall()
-
-    # Create the context dictionary
-    # context = {'my_data': data}
-    context = {'base': data}
-
-    # Render the template and pass in the context dictionary
-    return render_template('base.html', **context)
+    return render_template('base.html', base=pagination_data, pagination=pagination)
 
 @app.route('/guide')
 def guide():

@@ -1,39 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>About Flask</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <script src="{{url_for('static', filename='javascript/base.js')}}"></script>
-  </head>
-  <body>
-    {% extends "template.html" %}
-    {% block content %}
-    
-    <table border="1" class="dataframe">
-        <thead>
-          <tr style="text-align: right;">
-            <th></th>
-            <th>test</th>
-            <th>column1</th>
-            <th>2</th>
-            <th>3</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in base %}
-          <tr>
-            <th>{{ row[0] }}</th>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
 
-    {% endblock %}
+<head>
+  <meta charset="utf-8">
+  <title>About Flask</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <script src="{{url_for('static', filename='javascript/base.js')}}"></script>
+</head>
 
-  </body>
+<body>
+  {% extends "template.html" %}
+  {% block content %}
+
+  <table border="1" class="dataframe">
+    <thead>
+      <tr style="text-align: right;">
+        <th>Index</th>
+        <th>UNIPROTKB_AC</th>
+        <th>UNIPROTKB_ID</th>
+        <th>Gene Name</th>
+        <th>Description</th>
+        <th>Ensembl</th>
+        <th>HGNC</th>
+        <th>PDB</th>
+        <th>PDB ID</th>
+        <th>GTEx</th>
+        <th>ExpresionAltas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in base %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+        <td>{{ row[7] }}</td>
+        <td>{{ row[8] }}</td>
+        <td>{{ row[9] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {{ pagination.links }}
+  </div>
+
+  {% endblock %}
+
+</body>
+
 </html>
