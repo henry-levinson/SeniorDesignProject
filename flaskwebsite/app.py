@@ -28,14 +28,19 @@ def about():
 
 @app.route('/base', methods=['GET'])
 def base():
+    search = request.args.get('search', '') # Get the search query from the form submission
     page = request.args.get('page', type=int, default=1)
     per_page = request.args.get('per_page', type=int, default=10)
     offset = (page - 1) * per_page
-    pagination_data = data[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=total,
+
+    # Filter the data based on the search query
+    filtered_data = [row for row in data if search.lower() in ' '.join(str(item) for item in row).lower()]
+
+    pagination_data = filtered_data[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=len(filtered_data),
                             css_framework='bootstrap4')
 
-    return render_template('base.html', base=pagination_data, pagination=pagination)
+    return render_template('base.html', base=pagination_data, pagination=pagination, search=search)
 
 @app.route('/guide')
 def guide():
