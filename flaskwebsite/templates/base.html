@@ -16,7 +16,6 @@
     <thead>
       <tr style="text-align: right;">
         <th>Index</th>
-        <th>Rank</th>
         <th>UNIPROTKB_AC</th>
         <th>UNIPROTKB_ID</th>
         <th>Gene Name</th>
@@ -30,18 +29,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in base[start:stop] %}
+      {% for row in base %}
       <tr>
         <td>{{ loop.index }}</td>
-        <td>
-          <div class="stars">
-            <span class="star" data-rating="0"></span>
-            <span class="star" data-rating="0"></span>
-            <span class="star" data-rating="0"></span>
-            <span class="star" data-rating="0"></span>
-            <span class="star" data-rating="0"></span>
-          </div>
-        </td>
         <td>{{ row[0] }}</td>
         <td>{{ row[1] }}</td>
         <td>{{ row[2] }}</td>
@@ -58,13 +48,7 @@
   </table>
 
   <div class="pagination">
-    <button id="prevPage">Previous</button>
-    <button id="nextPage">Next</button>
-    <select id="rowsPerPage">
-      <option value="10">10 Rows</option>
-      <option value="25" selected>25 Rows</option>
-      <option value="50">50 Rows</option>
-    </select>
+    {{ pagination.links }}
   </div>
 
   {% endblock %}
