@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_paginate import Pagination, get_page_args
 import psycopg2
-from database_querying import searchTarget
+import database_querying
 
 app = Flask(__name__)
 
