@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_paginate import Pagination, get_page_args
 import psycopg2
-import database_querying
+from database_querying import DbHandler
 
 app = Flask(__name__)
 
@@ -12,6 +12,9 @@ conn = psycopg2.connect(
     user="postgres",
     password="123"
 )
+
+# Create an instance of the DbHandler class
+db_handler = DbHandler(conn)
 
 # Retrieve the data from the database
 cur = conn.cursor()
@@ -36,7 +39,7 @@ def base():
 
     if search:
         # Call the searchTarget function with the search query to get filtered data
-        filtered_data = searchTarget(search)
+        filtered_data = db_handler.searchTarget(search)
         total_results = len(filtered_data)
         pagination_data = filtered_data[offset: offset + per_page]
     else:
