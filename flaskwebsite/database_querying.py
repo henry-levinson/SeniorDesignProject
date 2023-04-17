@@ -15,7 +15,7 @@ def searchTarget(search_string):
                     WHERE to_tsvector(uniProt_accession || ' ' || uniProt_id || ' ' || primary_gene_name) @@ to_tsquery('{search_string}');''')
     result = cur.fetchall()
     print(result)
-
+    return result
 
 
 
