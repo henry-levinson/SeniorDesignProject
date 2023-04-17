@@ -5,6 +5,13 @@ from get_protein_info import get_protein_info
 from sqlalchemy import create_engine
 import random
 
+os.environ['DATABASE_HOST'] = "localhost"
+os.environ['DATABASE_NAME'] = "flask_db"
+os.environ['DATABASE_USER'] = "postgres"
+os.environ['DATABASE_PASSWORD'] = "123"
+os.environ['DATABASE_PORT'] = "5432"
+
+
 def init_connect():
     """ Connect to the PostgreSQL database server """
     conn = None

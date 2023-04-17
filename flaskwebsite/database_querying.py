@@ -9,11 +9,12 @@ class DbHandler():
     
     def searchTarget(self, search_string):
         self.cur.execute(f'''SELECT *
-                        FROM protein_information
-                        WHERE to_tsvector(uniProt_accession || ' ' || uniProt_id || ' ' || primary_gene_name) @@ to_tsquery('{search_string}');''')
+                        FROM \"PROTEIN_INFO\"
+                        WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"Gene Name\") @@ to_tsquery('{search_string}');''')
         # result = self.cur.fetchall()
-        df = DataFrame(self.cur.fetchall())
-        print(df)
+        df = self.cur.fetchall()
+        #print(df)
+        return df
 
     def insertUserReview(self, User_ID, Publication_ID, Score, Principal_Findings, Methodology):
         self.cur.execute(f'''INSERT INTO user_reviews (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
