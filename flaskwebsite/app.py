@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_paginate import Pagination, get_page_args
 import psycopg2
+import database_querying
 
 app = Flask(__name__)
 
@@ -33,11 +34,18 @@ def base():
     per_page = request.args.get('per_page', type=int, default=10)
     offset = (page - 1) * per_page
 
-    # Filter the data based on the search query
-    filtered_data = [row for row in data if search.lower() in ' '.join(str(item) for item in row).lower()]
+    if search:
+        # Call the searchTarget function with the search query to get filtered data
+        filtered_data = searchTarget(search)
+        total_results = len(filtered_data)
+        pagination_data = filtered_data[offset: offset + per_page]
+    else:
+        # Get the full database
+        filtered_data = data
+        total_results = len(filtered_data)
+        pagination_data = filtered_data[offset: offset + per_page]
 
-    pagination_data = filtered_data[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=len(filtered_data),
+    pagination = Pagination(page=page, per_page=per_page, total=total_results,
                             css_framework='bootstrap4')
 
     return render_template('base.html', base=pagination_data, pagination=pagination, search=search)

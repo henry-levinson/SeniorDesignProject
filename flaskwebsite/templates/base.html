@@ -21,12 +21,15 @@
   <table border="1" class="dataframe">
     <thead>
       <tr style="text-align: right;">
-        <th>Index</th>
+        <!--<th>Index</th>-->
+        <th>Gene Name</th>
+        <th>Score</th>
+        <th>Principal Findings</th>
+        <th>Methodology</th>
         <th>UNIPROTKB_AC</th>
         <th>UNIPROTKB_ID</th>
-        <th>Gene Name</th>
-        <th>Description</th>
         <th>Ensembl</th>
+        <th>Description</th>
         <th>HGNC</th>
         <th>PDB</th>
         <th>PDB ID</th>
@@ -37,10 +40,13 @@
     <tbody>
       {% for row in base %}
       <tr>
-        <td>{{ loop.index }}</td>
+        <!--<td>{{ loop.index }}</td>-->
+        <td><a href="#" class="gene-name">{{ row[2] }}</a></td>
+        <td>*****</td>
+        <td></td>
+        <td></td>
         <td>{{ row[0] }}</td>
         <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
         <td>{{ row[3] }}</td>
         <td>{{ row[4] }}</td>
         <td>{{ row[5] }}</td>
