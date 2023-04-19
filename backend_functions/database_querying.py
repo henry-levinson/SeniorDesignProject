@@ -10,14 +10,14 @@ class DbHandler():
     def searchTarget(self, search_string):
         self.cur.execute(f'''SELECT *
                         FROM \"PROTEIN_INFO\"
-                        WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"Gene Name\") @@ to_tsquery('{search_string}');''')
+                        WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"GENE_NAME\") @@ to_tsquery('{search_string}');''')
         # result = self.cur.fetchall()
         df = self.cur.fetchall()
         #print(df)
         return df
 
     def insertUserReview(self, User_ID, Publication_ID, Score, Principal_Findings, Methodology):
-        self.cur.execute(f'''INSERT INTO USER_REVIEWS (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
+        self.cur.execute(f'''INSERT INTO \"USER_REVIEWS\" (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
                         VALUES ('{User_ID}', '{Publication_ID}', '{Score}', '{Principal_Findings}', '{Methodology}')
                         ON CONFLICT (User_ID, Publication_ID) DO UPDATE 
                         SET Principal_Findings = excluded.Principal_Findings, 
