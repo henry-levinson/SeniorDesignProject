@@ -31,53 +31,67 @@ def get_description(protein_info):
                     return value
     return None
 
+
 def get_protein_info(protein_id):
     endpoint = "https://rest.uniprot.org/uniprotkb/"
     url = endpoint + protein_id + ".json"
     response = requests.get(url)
     if response.ok:
         protein_info = response.json()
+
+        prot_dict = {}
         ac = get_value("primaryAccession", protein_info)
+        prot_dict["UNIPROTKB_AC"] = ac
         # ac = protein_info["primaryAccession"]
-        uniprot_id = get_value("uniProtkbId", protein_info)
+        prot_dict["UNIPROTKB_ID"] = get_value("uniProtkbId", protein_info)
         # protein_info["uniProtkbId"]
 
-        gene_name = get_gene_name(protein_info)
+        prot_dict["GENE_NAME"] = get_gene_name(protein_info)
         # gene_name = protein_info["genes"][0]["geneName"]["value"]
 
-        description = get_description(protein_info)
+        prot_dict["DESCRIPTION"] = get_description(protein_info)
         # description = protein_info["proteinDescription"]["recommendedName"]["fullName"]["value"]
 
-        ensembl = "None"
-        hgnc = "None"
-        pdb_info = "False"
-        pdb_id = "NA"
-        gtex = "None"
-        ExpresionAltas = "NA"
+        prot_dict["ENSEMBL"] = "None"
+        prot_dict["HGNC"] = "None"
+        prot_dict["PDB"] = "False"
+        prot_dict["PDB_ID"] = "NA"
+        prot_dict["GTEX"] = "None"
+        prot_dict["EXPRESSION_ATLAS"] = "NA"
+        hpa_val = None
         
         if "uniProtKBCrossReferences" in protein_info:
             for dbReference in protein_info["uniProtKBCrossReferences"]:
                 if get_value("database", dbReference) == "OpenTargets":
-                    ensembl = get_value("id", dbReference)
-                    gtex ="https://gtexportal.org/home/gene/"+ensembl
+                    prot_dict["ENSEMBL"] = get_value("id", dbReference)
+                    prot_dict["GTEX"] ="https://gtexportal.org/home/gene/"+prot_dict["ENSEMBL"]
                 elif get_value("database", dbReference) == "HGNC":
-                    hgnc = get_value("id", dbReference).split(":")[1]
-                elif get_value("database", dbReference) == "PDB" in protein_info["uniProtKBCrossReferences"]:
-                    pdb_info = "Y"
-                    pdb_id = get_value("id", dbReference)
+                    prot_dict["HGNC"] = get_value("id", dbReference).split(":")[1]
+                elif get_value("database", dbReference) == "PDB":
+                    prot_dict["PDB"] = "True"
+                    prot_dict["PDB_ID"] = get_value("id", dbReference)
+                elif get_value("database", dbReference) == "HPA":
+                    for item in get_value("properties", dbReference):
+                        if get_value("key", item) == "ExpressionPatterns":
+                            hpa_val = get_value("value", item)
+
+        if hpa_val and prot_dict["ENSEMBL"] != "None" and prot_dict['GENE_NAME']: 
+            prot_dict["EXPRESSION_ATLAS"] = f"https://www.proteinatlas.org/{prot_dict['ENSEMBL']}-{prot_dict['GENE_NAME']}/tissue"
         
-        protein_df = info_to_dataframe({
-            "UNIPROTKB_AC": ac, 
-            "UNIPROTKB_ID": uniprot_id, 
-            "Gene Name": gene_name,
-            "Description": description, 
-            "Ensembl": ensembl, 
-            "HGNC": hgnc,
-            "PDB": pdb_info,
-            "PDB ID": pdb_id,
-            "GTEx": gtex,
-            "ExpresionAltas": ExpresionAltas
-            })
+
+        # protein_df = info_to_dataframe({
+        #     "UNIPROTKB_AC": ac, 
+        #     "UNIPROTKB_ID": uniprot_id, 
+        #     "Gene Name": gene_name,
+        #     "Description": description, 
+        #     "Ensembl": ensembl, 
+        #     "HGNC": hgnc,
+        #     "PDB": pdb_info,
+        #     "PDB ID": pdb_id,
+        #     "GTEx": gtex,
+        #     "ExpresionAltas": ExpresionAltas
+        #     })
+        protein_df = info_to_dataframe(prot_dict)
          
         pubs_df_list = []
         for pub in protein_info["references"]:
@@ -117,4 +131,4 @@ if __name__ == "__main__":
     # protein_id = "123"
     protein_info = get_protein_info(protein_id)
     df = info_to_dataframe(protein_info)
-    print(df)
+    print(protein_info[0])
