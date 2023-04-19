@@ -1,0 +1,121 @@
+/* Center align elements */
+.center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Styling for the data table */
+  .dataframe {
+    font-family: Arial, sans-serif;
+    width: 100%; /* Set width to 100% for responsiveness */
+    max-width: 80%; /* Set a maximum width for larger screens */
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: auto; /* Center the table horizontally on the screen */
+    margin-right: auto;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  .dataframe th,
+  .dataframe td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px; /* Decrease font size for smaller text */
+  }
+  
+  .dataframe th {
+    background-color: #f2f2f2;
+  }
+  
+  .scrollable {
+    overflow-x: auto;
+  }
+  
+  /* Styling for the search form container */
+  .search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Styling for the input field in the search form */
+  .search-form input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 200px;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  /* Styling for the search button in the search form */
+  .search-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #34bbe8;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  /* Styling for the placeholder text in the input field */
+  .search-form input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+  /* Hover effect for the search button */
+  .search-form button:hover {
+    background-color: #1d6e87;
+  }
+  
+  /* Styling for the body */
+  body {
+    font-family: sans-serif;
+    background-color: #f7f7f7;
+  }
+  
+  /* Styling for h1 tags */
+  h1 {
+    color: #34bbe8;
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  /* Styling for p tags */
+  p {
+    font-size: 20px;
+    color: #333333;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Styling for div containers */
+  div {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  /* Styling for buttons */
+  button {
+    background-color: #34bbe8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  /* Hover effect for buttons */
+  button:hover {
+    background-color: #1d6e87;
+  }
+  

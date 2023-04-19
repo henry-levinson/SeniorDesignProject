@@ -19,8 +19,12 @@ db_handler = DbHandler(conn)
 # Retrieve the data from the database
 cur = conn.cursor()
 cur.execute("SELECT * FROM \"PROTEIN_INFO\"")
-data = cur.fetchall()
-total = len(data)
+protein_data = cur.fetchall()
+
+cur.execute("SELECT * FROM \"PUBLICATION_INFO\"")
+publication_data = cur.fetchall()
+
+total = len(protein_data)
 
 @app.route('/')
 def home():
@@ -44,7 +48,7 @@ def base():
         pagination_data = filtered_data[offset: offset + per_page]
     else:
         # Get the full database
-        filtered_data = data
+        filtered_data = protein_data
         total_results = len(filtered_data)
         pagination_data = filtered_data[offset: offset + per_page]
 
@@ -52,6 +56,29 @@ def base():
                             css_framework='bootstrap4')
 
     return render_template('base.html', base=pagination_data, pagination=pagination, search=search)
+
+@app.route('/publications')
+def publications():
+    search = request.args.get('search', '') # Get the search query from the form submission
+    page = request.args.get('page', type=int, default=1)
+    per_page = request.args.get('per_page', type=int, default=10)
+    offset = (page - 1) * per_page
+
+    if search:
+        # Call the searchTarget function with the search query to get filtered data
+        filtered_data = db_handler.searchTarget(search)
+        total_results = len(filtered_data)
+        pagination_data = filtered_data[offset: offset + per_page]
+    else:
+        # Get the full database
+        filtered_data = publication_data
+        total_results = len(filtered_data)
+        pagination_data = filtered_data[offset: offset + per_page]
+
+    pagination = Pagination(page=page, per_page=per_page, total=total_results,
+                            css_framework='bootstrap4')
+
+    return render_template('publications.html', base=pagination_data, pagination=pagination, search=search)
 
 @app.route('/guide')
 def guide():
