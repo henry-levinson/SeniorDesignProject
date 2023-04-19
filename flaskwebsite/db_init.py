@@ -73,9 +73,10 @@ def populate_db():
     while True:
         requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&seqLength=0-100000"
         print("Get successful with offset", offset)
+        
 
         r = requests.get(requestURL, headers={"Accept" : "application/json"})
-        
+
         if not r.ok:
             r.raise_for_status()
             sys.exit()
@@ -94,7 +95,7 @@ def populate_db():
         if offset > int(r.headers["X-Pagination-TotalRecords"]):
             break
 
-        if offset > 1000:
+        if offset >= 1000:
             break #used for testing
 
 

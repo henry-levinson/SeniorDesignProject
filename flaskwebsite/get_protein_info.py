@@ -127,7 +127,7 @@ def info_to_dataframe(protein_info):
 
 if __name__ == "__main__":
     # Example usage:
-    protein_id = "Q8BSY0"
+    protein_id = "Q9Y2J0"
     # protein_id = "123"
     protein_info = get_protein_info(protein_id)
     df = info_to_dataframe(protein_info)
