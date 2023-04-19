@@ -29,32 +29,36 @@ def create_tables(conn):
     cur = conn.cursor()
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS PROTEIN_INFO (
-            UNIPROTKB_AC VARCHAR(20),
-            UNIPROTKB_ID VARCHAR(20),
-            DESCRIPTION VARCHAR(1000),
-            ENSEMBL VARCHAR(20),
-            HGNC VARCHAR(20),
-            PDB VARCHAR(20),
-            PDB_ID VARCHAR(20),
-            GTEX VARCHAR(100),
-            EXPRESSION_ATLAS VARCHAR(100),
-            PRIMARY KEY (UNIPROTKB_AC)
+        CREATE TABLE IF NOT EXISTS "PROTEIN_INFO" (
+            "index" REAL,
+            "UNIPROTKB_AC" VARCHAR(20),
+            "UNIPROTKB_ID" VARCHAR(20),
+            "GENE_NAME" VARCHAR(20),
+            "DESCRIPTION" VARCHAR(1000),
+            "ENSEMBL" VARCHAR(20),
+            "HGNC" VARCHAR(20),
+            "PDB" VARCHAR(20),
+            "PDB_ID" VARCHAR(20),
+            "GTEX" VARCHAR(100),
+            "EXPRESSION_ATLAS" VARCHAR(100),
+            PRIMARY KEY ("UNIPROTKB_AC")
         );
     ''')
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS PUBLICATION_INFO (
-            UNIPROTKB_AC VARCHAR(20),
-            PUBLICATION_ID VARCHAR(20),
-            PUBLICATION_NAME VARCHAR(200),
-            AUTHORS VARCHAR(200),
-            SCORE REAL,
-            PRIMARY KEY (PUBLICATION_ID, UNIPROTKB_AC)
+        CREATE TABLE IF NOT EXISTS "PUBLICATION_INFO" (
+            "index" REAL,
+            "UNIPROTKB_AC" VARCHAR(20),
+            "PUBLICATION_ID" VARCHAR(20),
+            "PUBLICATION_NAME" VARCHAR(200),
+            "AUTHORS" VARCHAR(200),
+            "SCORE" REAL,
+            PRIMARY KEY ("PUBLICATION_ID", "UNIPROTKB_AC")
         );
     ''')
 
     cur.close()
+    conn.commit()
 
 
 def populate_db():
@@ -103,14 +107,15 @@ def del_tables(conn):
     cur = conn.cursor()
 
     cur.execute('''
-        DROP TABLE IF EXISTS PROTEIN_INFO;
+        DROP TABLE IF EXISTS "PROTEIN_INFO";
     ''')
 
     cur.execute('''
-        DROP TABLE IF EXISTS PUBLICATION_INFO;
+        DROP TABLE IF EXISTS "PUBLICATION_INFO";
     ''')
 
     cur.close()
+    conn.commit()
 
 
 if __name__ == "__main__":

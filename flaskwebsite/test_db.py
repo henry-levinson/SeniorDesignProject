@@ -13,6 +13,8 @@ if __name__ == "__main__":
     conn = init_connect()
     print("Connected.")
     if conn:
+        del_tables(conn)
+        create_tables(conn)
         print("Populating Database...")
         populate_db()
         print("Populated")

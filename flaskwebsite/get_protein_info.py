@@ -46,25 +46,25 @@ def get_protein_info(protein_id):
         prot_dict["UNIPROTKB_ID"] = get_value("uniProtkbId", protein_info)
         # protein_info["uniProtkbId"]
 
-        prot_dict["Gene Name"] = get_gene_name(protein_info)
+        prot_dict["GENE_NAME"] = get_gene_name(protein_info)
         # gene_name = protein_info["genes"][0]["geneName"]["value"]
 
-        prot_dict["Description"] = get_description(protein_info)
+        prot_dict["DESCRIPTION"] = get_description(protein_info)
         # description = protein_info["proteinDescription"]["recommendedName"]["fullName"]["value"]
 
-        prot_dict["Ensembl"] = "None"
+        prot_dict["ENSEMBL"] = "None"
         prot_dict["HGNC"] = "None"
         prot_dict["PDB"] = "False"
         prot_dict["PDB_ID"] = "NA"
-        prot_dict["GTEx"] = "None"
-        prot_dict["Expression_Atlas"] = "NA"
+        prot_dict["GTEX"] = "None"
+        prot_dict["EXPRESSION_ATLAS"] = "NA"
         hpa_val = None
         
         if "uniProtKBCrossReferences" in protein_info:
             for dbReference in protein_info["uniProtKBCrossReferences"]:
                 if get_value("database", dbReference) == "OpenTargets":
-                    prot_dict["Ensembl"] = get_value("id", dbReference)
-                    prot_dict["GTEx"] ="https://gtexportal.org/home/gene/"+prot_dict["Ensembl"]
+                    prot_dict["ENSEMBL"] = get_value("id", dbReference)
+                    prot_dict["GTEX"] ="https://gtexportal.org/home/gene/"+prot_dict["ENSEMBL"]
                 elif get_value("database", dbReference) == "HGNC":
                     prot_dict["HGNC"] = get_value("id", dbReference).split(":")[1]
                 elif get_value("database", dbReference) == "PDB":
@@ -75,8 +75,8 @@ def get_protein_info(protein_id):
                         if get_value("key", item) == "ExpressionPatterns":
                             hpa_val = get_value("value", item)
 
-        if hpa_val and prot_dict["Ensembl"] != "None" and prot_dict['Gene Name']: 
-            prot_dict["Expression_Atlas"] = f"https://www.proteinatlas.org/{prot_dict['Ensembl']}-{prot_dict['Gene Name']}/tissue"
+        if hpa_val and prot_dict["ENSEMBL"] != "None" and prot_dict['GENE_NAME']: 
+            prot_dict["EXPRESSION_ATLAS"] = f"https://www.proteinatlas.org/{prot_dict['ENSEMBL']}-{prot_dict['GENE_NAME']}/tissue"
         
 
         # protein_df = info_to_dataframe({
