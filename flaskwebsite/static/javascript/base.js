@@ -1,30 +1,31 @@
-// base.js
-// Add your custom JavaScript code here
 document.addEventListener('DOMContentLoaded', function() {
-    // Add click event listener to gene name links
-    var geneNameLinks = document.getElementsByClassName('gene-name');
-    for (var i = 0; i < geneNameLinks.length; i++) {
-      geneNameLinks[i].addEventListener('click', function(event) {
-        event.preventDefault();
-        var geneName = this.innerHTML;
-        var geneValues = this.parentNode.parentNode.cells; // Get values from the same row as gene name
-  
-        // Open a new window with gene information
-        var popup = window.open('', 'Gene Information', 'width=500,height=400');
-        popup.document.body.innerHTML = '<h1>Gene Name: ' + geneName + '</h1>';
-        popup.document.body.innerHTML += '<p>Score: ' + geneValues[1].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>Principal Findings: ' + geneValues[2].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>Methodology: ' + geneValues[3].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>UNIPROTKB_AC: ' + geneValues[4].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>UNIPROTKB_ID: ' + geneValues[5].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>Description: ' + geneValues[6].innerHTML + '</p>'; // Updated line
-        popup.document.body.innerHTML += '<p>Ensembl: ' + geneValues[7].innerHTML + '</p>'; // Updated line
-        popup.document.body.innerHTML += '<p>HGNC: ' + geneValues[8].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>PDB: ' + geneValues[9].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>PDB ID: ' + geneValues[10].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>GTEx: ' + geneValues[11].innerHTML + '</p>';
-        popup.document.body.innerHTML += '<p>ExpresionAltas: ' + geneValues[12].innerHTML + '</p>';
-      });
-    }
-  });
-  
+  // Add click event listener to UNIPROTKB_AC links
+  var uniprotkb_acLinks = document.getElementsByClassName('uniprotkb_ac');
+  for (var i = 0; i < uniprotkb_acLinks.length; i++) {
+    uniprotkb_acLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+      var uniprotkb_ac = this.innerHTML;
+      var uniprotkb_acValues = this.parentNode.parentNode.cells; // Get values from the same row as UNIPROTKB_AC
+
+      // Open a new window with gene information
+      var popup = window.open('', 'Gene Information', 'width=500,height=400');
+      var popupContent = 
+        '<h1>UNIPROTKB_AC: ' + uniprotkb_ac + '</h1>' +
+        '<p>Score: ' + uniprotkb_acValues[0].innerHTML + '</p>' +
+        '<p>Principal Findings: ' + uniprotkb_acValues[1].innerHTML + '</p>' +
+        '<p>Methodology: ' + uniprotkb_acValues[2].innerHTML + '</p>' +
+        '<p>UniProtKB_AC: ' + uniprotkb_acValues[3].innerHTML + '</p>' +
+        '<p>UniProtKB_ID: ' + uniprotkb_acValues[4].innerHTML + '</p>' +
+        '<p>Gene Name: ' + uniprotkb_acValues[5].innerHTML + '</p>' +
+        '<p>Description: ' + uniprotkb_acValues[6].innerHTML + '</p>' +
+        '<p>Ensembl: ' + uniprotkb_acValues[7].innerHTML + '</p>' +
+        '<p>HGNC: ' + uniprotkb_acValues[8].innerHTML + '</p>' +
+        '<p>PDB: ' + uniprotkb_acValues[9].innerHTML + '</p>' +
+        '<p>PDB ID: ' + uniprotkb_acValues[10].innerHTML + '</p>' +
+        '<p>GTEx: ' + uniprotkb_acValues[11].innerHTML + '</p>' +
+        '<p>ExpresionAltas: ' + uniprotkb_acValues[12].innerHTML + '</p>';
+
+      popup.document.body.innerHTML = popupContent;
+    });
+  }
+});

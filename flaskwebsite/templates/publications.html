@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>Target List</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  <script src="{{url_for('static', filename='javascript/base.js')}}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/publications.css') }}">
+  <script src="{{url_for('static', filename='javascript/publications.js')}}"></script>
 </head>
 
 <body>
@@ -22,15 +22,10 @@
     <thead>
       <tr style="text-align: right;">
         <th>UNIPROTKB_AC</th>
-        <th>UNIPROTKB_ID</th>
-        <th>Gene Name</th>
-        <th>Description</th>
-        <th>Ensembl</th>
-        <th>HGNC</th>
-        <th>PDB</th>
-        <th>PDB ID</th>
-        <th>GTEx</th>
-        <th>ExpresionAltas</th>
+        <th>Publication ID</th>
+        <th>Publication Name</th>
+        <th>Authors</th>
+        <th>Score</th>
       </tr>
     </thead>
     <tbody>
@@ -41,11 +36,6 @@
         <td>{{ row[3] }}</td>
         <td>{{ row[4] }}</td>
         <td>{{ row[5] }}</td>
-        <td>{{ row[6] }}</td>
-        <td>{{ row[7] }}</td>
-        <td>{{ row[8] }}</td>
-        <td>{{ row[9] }}</td>
-        <td>{{ row[10] }}</td>
       </tr>
       {% endfor %}
     </tbody>
