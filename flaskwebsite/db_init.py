@@ -36,32 +36,36 @@ def create_tables(conn):
     cur = conn.cursor()
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS PROTEIN_INFO (
-            UNIPROTKB_AC VARCHAR(20),
-            UNIPROTKB_ID VARCHAR(20),
-            DESCRIPTION VARCHAR(1000),
-            ENSEMBL VARCHAR(20),
-            HGNC VARCHAR(20),
-            PDB VARCHAR(20),
-            PDB_ID VARCHAR(20),
-            GTEX VARCHAR(100),
-            EXPRESSION_ATLAS VARCHAR(100),
-            PRIMARY KEY (UNIPROTKB_AC)
+        CREATE TABLE IF NOT EXISTS "PROTEIN_INFO" (
+            "index" REAL,
+            "UNIPROTKB_AC" VARCHAR(20),
+            "UNIPROTKB_ID" VARCHAR(20),
+            "GENE_NAME" VARCHAR(20),
+            "DESCRIPTION" VARCHAR(1000),
+            "ENSEMBL" VARCHAR(20),
+            "HGNC" VARCHAR(20),
+            "PDB" VARCHAR(20),
+            "PDB_ID" VARCHAR(20),
+            "GTEX" VARCHAR(100),
+            "EXPRESSION_ATLAS" VARCHAR(100),
+            PRIMARY KEY ("UNIPROTKB_AC")
         );
     ''')
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS PUBLICATION_INFO (
-            UNIPROTKB_AC VARCHAR(20),
-            PUBLICATION_ID VARCHAR(20),
-            PUBLICATION_NAME VARCHAR(200),
-            AUTHORS VARCHAR(200),
-            SCORE REAL,
-            PRIMARY KEY (PUBLICATION_ID, UNIPROTKB_AC)
+        CREATE TABLE IF NOT EXISTS "PUBLICATION_INFO" (
+            "index" REAL,
+            "UNIPROTKB_AC" VARCHAR(20),
+            "PUBLICATION_ID" VARCHAR(20),
+            "PUBLICATION_NAME" VARCHAR(200),
+            "AUTHORS" VARCHAR(200),
+            "SCORE" REAL,
+            PRIMARY KEY ("PUBLICATION_ID", "UNIPROTKB_AC")
         );
     ''')
 
     cur.close()
+    conn.commit()
 
 
 def populate_db():
@@ -74,14 +78,16 @@ def populate_db():
 
     engine = create_engine(f'postgresql://{username}:{password}@{host}:{port}/{database_name}')
 
-    # offset = 0
-    offset = random.randint(0, 30000)  #used for testing
-    size = 100      # size 500 reccommended by website, smaller value for testing
+    offset = 0
+    # offset = random.randint(0, 30000)  #used for testing
+    size = 500      # size 500 reccommended by website, smaller value for testing
     while True:
-        requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&isoform=1"
+        requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&seqLength=0-100000"
+        print("Get successful with offset", offset)
+        
 
         r = requests.get(requestURL, headers={"Accept" : "application/json"})
-        
+
         if not r.ok:
             r.raise_for_status()
             sys.exit()
@@ -100,21 +106,23 @@ def populate_db():
         if offset > int(r.headers["X-Pagination-TotalRecords"]):
             break
 
-        break #used for testing
+        if offset >= 1000:
+            break #used for testing
 
 
 def del_tables(conn):
     cur = conn.cursor()
 
     cur.execute('''
-        DROP TABLE IF EXISTS PROTEIN_INFO;
+        DROP TABLE IF EXISTS "PROTEIN_INFO";
     ''')
 
     cur.execute('''
-        DROP TABLE IF EXISTS PUBLICATION_INFO;
+        DROP TABLE IF EXISTS "PUBLICATION_INFO";
     ''')
 
     cur.close()
+    conn.commit()
 
 
 if __name__ == "__main__":
