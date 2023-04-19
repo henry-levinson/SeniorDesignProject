@@ -21,9 +21,6 @@
   <table border="1" class="dataframe">
     <thead>
       <tr style="text-align: right;">
-        <th>Score</th>
-        <th>Principal Findings</th>
-        <th>Methodology</th>
         <th>UNIPROTKB_AC</th>
         <th>UNIPROTKB_ID</th>
         <th>Gene Name</th>
@@ -39,9 +36,6 @@
     <tbody>
       {% for row in base %}
       <tr>
-        <td>*****</td>
-        <td></td>
-        <td></td>
         <td><a href="#" class="uniprotkb_ac">{{ row[1] }}</a></td>
         <td>{{ row[2] }}</td>
         <td>{{ row[3] }}</td>
