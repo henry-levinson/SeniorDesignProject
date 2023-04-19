@@ -10,7 +10,7 @@ class DbHandler():
     def searchTarget(self, search_string):
         self.cur.execute(f'''SELECT *
                         FROM \"PROTEIN_INFO\"
-                        WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"GENE_NAME\") @@ to_tsquery('{search_string}');''')
+                        WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"GENE NAME\") @@ to_tsquery('{search_string}');''')
         # result = self.cur.fetchall()
         df = self.cur.fetchall()
         #print(df)
