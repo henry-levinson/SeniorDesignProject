@@ -67,11 +67,12 @@ def populate_db():
 
     engine = create_engine(f'postgresql://{username}:{password}@{host}:{port}/{database_name}')
 
-    # offset = 0
-    offset = random.randint(0, 30000)  #used for testing
-    size = 100      # size 500 reccommended by website, smaller value for testing
+    offset = 0
+    # offset = random.randint(0, 30000)  #used for testing
+    size = 500      # size 500 reccommended by website, smaller value for testing
     while True:
-        requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&isoform=1"
+        requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&seqLength=0-100000"
+        print("Get successful with offset", offset)
 
         r = requests.get(requestURL, headers={"Accept" : "application/json"})
         
@@ -93,7 +94,8 @@ def populate_db():
         if offset > int(r.headers["X-Pagination-TotalRecords"]):
             break
 
-        break #used for testing
+        if offset > 1000:
+            break #used for testing
 
 
 def del_tables(conn):
