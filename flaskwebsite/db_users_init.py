@@ -36,6 +36,7 @@ def init_connect():
 def create_tables(conn):
     cur = conn.cursor()
 
+    cur.execute('DROP TABLE IF EXISTS USER_REVIEWS;')
     cur.execute('''
         CREATE TABLE IF NOT EXISTS USER_REVIEWS (
             USER_ID VARCHAR(100),
@@ -46,7 +47,8 @@ def create_tables(conn):
             PRIMARY KEY (USER_ID, PUBLICATION_ID)
         );
     ''')
-
+    
+    cur.execute('DROP TABLE IF EXISTS USERS;')
     cur.execute('''
         CREATE TABLE IF NOT EXISTS USERS (
             USER_ID VARCHAR(100),
@@ -59,22 +61,68 @@ def create_tables(conn):
 
     cur.close()
 
-def del_tables(conn):
+def populate_user_reviews(conn):
     cur = conn.cursor()
+    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+                                                PUBLICATION_ID,
+                                                SCORE,
+                                                PRINCIPAL_FINDINGS,
+                                                METHODOLOGY)
+                VALUES(
+                'User1',
+                16141072,
+                4,
+                'great publication good detail',
+                'method 1'
+                );'''
+            ))
+    
+    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+                                                PUBLICATION_ID,
+                                                SCORE,
+                                                PRINCIPAL_FINDINGS,
+                                                METHODOLOGY)
+                VALUES(
+                'User2',
+                16141072,
+                8,
+                'excellent publication great detail',
+                'method 2'
+                );'''
+            ))
+    
+    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+                                                PUBLICATION_ID,
+                                                SCORE,
+                                                PRINCIPAL_FINDINGS,
+                                                METHODOLOGY)
+                VALUES(
+                'User3',
+                16141072,
+                0,
+                'worst publication',
+                'method 3'
+                );'''
+            ))
+ 
 
-    cur.execute('''
-        DROP TABLE IF EXISTS PROTEIN_INFO;
-    ''')
+# def del_tables(conn):
+#     cur = conn.cursor()
 
-    cur.execute('''
-        DROP TABLE IF EXISTS PUBLICATION_INFO;
-    ''')
+#     cur.execute('''
+#         DROP TABLE IF EXISTS PROTEIN_INFO;
+#     ''')
 
-    cur.close()
+#     cur.execute('''
+#         DROP TABLE IF EXISTS PUBLICATION_INFO;
+#     ''')
+
+#     cur.close()
 
 
 if __name__ == "__main__":
     conn = init_connect()
+    populate_user_reviews(conn)
     conn.commit()
     #populate_db()
 
