@@ -74,7 +74,22 @@ def publications():
 
     return render_template('publications.html', base=pagination_data, pagination=pagination, search=search)
 
+@app.route('/reviews', methods=['GET'])
+def reviews():
+    publication_id = request.args.get('publication_id', '') # Get the uniprotkb_ac parameter from the URL
+    search = request.args.get('search', '') # Get the search query from the form submission
+    page = request.args.get('page', type=int, default=1)
+    per_page = request.args.get('per_page', type=int, default=10)
+    offset = (page - 1) * per_page
 
+    filtered_data = db_handler.scanPublications(publication_id)
+    total_results = len(filtered_data)
+    pagination_data = filtered_data[offset: offset + per_page]
+
+    pagination = Pagination(page=page, per_page=per_page, total=total_results,
+                            css_framework='bootstrap4')
+
+    return render_template('reviews.html', base=pagination_data, pagination=pagination, search=search)
 
 @app.route('/guide')
 def guide():

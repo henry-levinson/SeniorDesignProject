@@ -24,6 +24,15 @@ class DbHandler():
         df = self.cur.fetchall()
         #print(df)
         return df
+    
+    def scanUserReviews(self, publication_id):
+        self.cur.execute(f'''SELECT *
+                        FROM \"user_reviews\"
+                        WHERE to_tsvector(\"publication_id\" || ' ') @@ to_tsquery('{publication_id}');''')
+        # result = self.cur.fetchall()
+        df = self.cur.fetchall()
+        print(df)
+        return df
 
     def insertUserReview(self, User_ID, Publication_ID, Score, Principal_Findings, Methodology):
         self.cur.execute(f'''INSERT INTO \"USER_REVIEWS\" (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
@@ -59,7 +68,7 @@ if __name__ == "__main__":
 
     testHandler = DbHandler(conn)
     print("searchTarget results are:")
-    testHandler.scanPublications("Q6PF06-5")
+    testHandler.scanUserReviews("Publication_ID1")
     #testHandler.insertUserReview("id1", "Publication_ID1", "2.0", "findings 1", "method1-1")
     #testHandler.insertUserReview("id2", "Publication_ID1", "4.0", "findings 2", "method1-2")
     #testHandler.insertUserReview("id3", "Publication_ID2", "5.8", "findings 3", "method1-3")
