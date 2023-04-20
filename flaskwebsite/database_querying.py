@@ -35,7 +35,7 @@ class DbHandler():
         return df
 
     def insertUserReview(self, User_ID, Publication_ID, Score, Principal_Findings, Methodology):
-        self.cur.execute(f'''INSERT INTO \"USER_REVIEWS\" (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
+        self.cur.execute(f'''INSERT INTO \"user_reviews\" (User_ID, Publication_ID, Score,Principal_Findings, Methodology)
                         VALUES ('{User_ID}', '{Publication_ID}', '{Score}', '{Principal_Findings}', '{Methodology}')
                         ON CONFLICT (User_ID, Publication_ID) DO UPDATE 
                         SET Principal_Findings = excluded.Principal_Findings, 
