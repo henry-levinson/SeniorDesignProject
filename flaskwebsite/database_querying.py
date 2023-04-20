@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     testHandler = DbHandler(conn)
     print("searchTarget results are:")
-    testHandler.scanUserReviews("Publication_ID1")
+    testHandler.scanUserReviews("16141072 ")
     #testHandler.insertUserReview("id1", "Publication_ID1", "2.0", "findings 1", "method1-1")
     #testHandler.insertUserReview("id2", "Publication_ID1", "4.0", "findings 2", "method1-2")
     #testHandler.insertUserReview("id3", "Publication_ID2", "5.8", "findings 3", "method1-3")

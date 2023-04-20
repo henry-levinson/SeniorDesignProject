@@ -74,22 +74,34 @@ def publications():
 
     return render_template('publications.html', base=pagination_data, pagination=pagination, search=search)
 
-@app.route('/reviews', methods=['GET'])
+@app.route('/reviews', methods=['GET', 'POST'])
 def reviews():
-    publication_id = request.args.get('publication_id', '') # Get the uniprotkb_ac parameter from the URL
+    publication_id = request.args.get('publication_id', '') # Get the publication_id parameter from the URL
+    print(publication_id)
     search = request.args.get('search', '') # Get the search query from the form submission
     page = request.args.get('page', type=int, default=1)
     per_page = request.args.get('per_page', type=int, default=10)
     offset = (page - 1) * per_page
 
-    filtered_data = db_handler.scanPublications(publication_id)
+    filtered_data = db_handler.scanUserReviews(publication_id)
     total_results = len(filtered_data)
     pagination_data = filtered_data[offset: offset + per_page]
 
     pagination = Pagination(page=page, per_page=per_page, total=total_results,
                             css_framework='bootstrap4')
 
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        publication_id = request.form['publication_id']
+        score = request.form['score']
+        principal_findings = request.form['principal_findings']
+        methodology = request.form['methodology']
+
+        db_handler.insertUserReview(user_id, publication_id, score, principal_findings, methodology)
+        return render_template('reviews.html', base=pagination_data, pagination=pagination, search=search)
+
     return render_template('reviews.html', base=pagination_data, pagination=pagination, search=search)
+
 
 @app.route('/guide')
 def guide():
