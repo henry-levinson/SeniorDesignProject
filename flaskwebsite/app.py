@@ -57,28 +57,24 @@ def base():
 
     return render_template('base.html', base=pagination_data, pagination=pagination, search=search)
 
-@app.route('/publications')
+@app.route('/publications', methods=['GET'])
 def publications():
+    uniprotkb_ac = request.args.get('uniprotkb_ac', '') # Get the uniprotkb_ac parameter from the URL
     search = request.args.get('search', '') # Get the search query from the form submission
     page = request.args.get('page', type=int, default=1)
     per_page = request.args.get('per_page', type=int, default=10)
     offset = (page - 1) * per_page
 
-    if search:
-        # Call the searchTarget function with the search query to get filtered data
-        filtered_data = db_handler.searchTarget(search)
-        total_results = len(filtered_data)
-        pagination_data = filtered_data[offset: offset + per_page]
-    else:
-        # Get the full database
-        filtered_data = publication_data
-        total_results = len(filtered_data)
-        pagination_data = filtered_data[offset: offset + per_page]
+    filtered_data = db_handler.scanPublications(uniprotkb_ac)
+    total_results = len(filtered_data)
+    pagination_data = filtered_data[offset: offset + per_page]
 
     pagination = Pagination(page=page, per_page=per_page, total=total_results,
                             css_framework='bootstrap4')
 
     return render_template('publications.html', base=pagination_data, pagination=pagination, search=search)
+
+
 
 @app.route('/guide')
 def guide():
