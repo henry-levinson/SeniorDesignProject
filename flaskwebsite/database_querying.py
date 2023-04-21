@@ -9,29 +9,27 @@ class DbHandler():
     
     def searchTarget(self, search_string):
         self.cur.execute(f'''SELECT *
-                        FROM \"PROTEIN_INFO\"
+                        FROM "PROTEIN_INFO"
                         WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ' || \"UNIPROTKB_ID\" || ' ' || \"GENE_NAME\") @@ to_tsquery('{search_string}');''')
         # result = self.cur.fetchall()
         df = self.cur.fetchall()
-        #print(df)
         return df
     
     def scanPublications(self, uniprotkb_ac):
         self.cur.execute(f'''SELECT *
-                        FROM \"PUBLICATION_INFO\"
+                        FROM "PUBLICATION_INFO"
                         WHERE to_tsvector(\"UNIPROTKB_AC\" || ' ') @@ to_tsquery('{uniprotkb_ac}');''')
         # result = self.cur.fetchall()
         df = self.cur.fetchall()
-        #print(df)
         return df
     
     def scanUserReviews(self, publication_id):
         self.cur.execute(f'''SELECT *
-                        FROM \"user_reviews\"
+                        FROM "user_reviews"
                         WHERE to_tsvector(\"publication_id\" || ' ') @@ to_tsquery('{publication_id}');''')
         # result = self.cur.fetchall()
         df = self.cur.fetchall()
-        print(df)
+        #print(df)
         return df
 
     def insertUserReview(self, User_ID, Publication_ID, Score, Principal_Findings, Methodology):
@@ -46,19 +44,28 @@ class DbHandler():
         self.updatePublicationInfoTable(Publication_ID)
 
     def updatePublicationInfoTable(self,Publication_ID):
+        print(Publication_ID)
         self.cur.execute(f'''UPDATE "PUBLICATION_INFO"
                         SET "SCORE" = ROUND(
                                     CAST(
-                                        (SELECT avg(score)
+                                        (SELECT avg(SCORE)
                                         FROM user_reviews
-                                        WHERE publication_id = '{Publication_ID}'
-                                        GROUP BY publication_id
+                                        WHERE PUBLICATION_ID = '{Publication_ID}'
+                                        GROUP BY PUBLICATION_ID
                                         )
                                     
                                     AS numeric), 1)
-                        WHERE 'PUBLICATION_ID' = '{Publication_ID}';''')
+                        WHERE "PUBLICATION_ID" = '{Publication_ID}';''')
 
         self.conn.commit()
+    
+    def test(self):
+        self.cur.execute(f'''select * from "user_reviews" where publication_id = 'CI-9LAJ522RF4IIS';
+        ''')
+
+        result = self.cur.fetchall()
+        print(result)
+        
 
 if __name__ == "__main__":
     conn = psycopg2.connect(
@@ -69,8 +76,9 @@ if __name__ == "__main__":
         user = "postgres",
         password = "123"
     )
-
+    
     testHandler = DbHandler(conn)
+    testHandler.test()
     print("searchTarget results are:")
     testHandler.scanUserReviews("16141072 ")
     #testHandler.insertUserReview("id1", "Publication_ID1", "2.0", "findings 1", "method1-1")
