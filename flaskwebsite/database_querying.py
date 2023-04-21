@@ -43,18 +43,22 @@ class DbHandler():
                             Score = excluded.Score;
         ''')
         # update score of publication that user reviewed
-        self.updatePublicationTable(Publication_ID)
+        self.updatePublicationInfoTable(Publication_ID)
 
-    def updatePublicationTable(self,Publication_ID):
-        self.cur.execute(f'''UPDATE publication_table
-                        SET Score = ROUND(
-                                    (SELECT avg(score)
-                                    FROM user_reviews
-                                    WHERE publication_id = '{Publication_ID}'
-                                    GROUP BY publication_id), 1)
-                        WHERE publication_id = '{Publication_ID}';''')
+    def updatePublicationInfoTable(self,Publication_ID):
+        self.cur.execute(f'''UPDATE "PUBLICATION_INFO"
+                        SET "SCORE" = ROUND(
+                                    CAST(
+                                        (SELECT avg(score)
+                                        FROM user_reviews
+                                        WHERE publication_id = '{Publication_ID}'
+                                        GROUP BY publication_id
+                                        )
+                                    
+                                    AS numeric), 1)
+                        WHERE 'PUBLICATION_ID' = '{Publication_ID}';''')
 
-        conn.commit()
+        self.conn.commit()
 
 if __name__ == "__main__":
     conn = psycopg2.connect(
