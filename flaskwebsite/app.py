@@ -92,7 +92,6 @@ def reviews():
 
     if request.method == 'POST':
         user_id = request.form['user_id']
-        publication_id = request.form['publication_id']
         score = request.form['score']
         principal_findings = request.form['principal_findings']
         methodology = request.form['methodology']
