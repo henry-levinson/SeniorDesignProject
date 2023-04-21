@@ -59,14 +59,7 @@ class DbHandler():
 
         self.conn.commit()
     
-    def test(self):
-        self.cur.execute(f'''select * from "user_reviews" where publication_id = 'CI-9LAJ522RF4IIS';
-        ''')
-
-        result = self.cur.fetchall()
-        print(result)
         
-
 if __name__ == "__main__":
     conn = psycopg2.connect(
         host="localhost",
@@ -78,7 +71,6 @@ if __name__ == "__main__":
     )
     
     testHandler = DbHandler(conn)
-    testHandler.test()
     print("searchTarget results are:")
     testHandler.scanUserReviews("16141072 ")
     #testHandler.insertUserReview("id1", "Publication_ID1", "2.0", "findings 1", "method1-1")

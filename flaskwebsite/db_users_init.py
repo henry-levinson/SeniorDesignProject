@@ -61,49 +61,49 @@ def create_tables(conn):
 
     cur.close()
 
-def populate_user_reviews(conn):
-    cur = conn.cursor()
-    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
-                                                PUBLICATION_ID,
-                                                SCORE,
-                                                PRINCIPAL_FINDINGS,
-                                                METHODOLOGY)
-                VALUES(
-                'User1',
-                16141072,
-                4,
-                'great publication good detail',
-                'method 1'
-                );'''
-            ))
+# def populate_user_reviews(conn):
+#     cur = conn.cursor()
+#     cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+#                                                 PUBLICATION_ID,
+#                                                 SCORE,
+#                                                 PRINCIPAL_FINDINGS,
+#                                                 METHODOLOGY)
+#                 VALUES(
+#                 'User1',
+#                 16141072,
+#                 4,
+#                 'great publication good detail',
+#                 'method 1'
+#                 );'''
+#             ))
     
-    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
-                                                PUBLICATION_ID,
-                                                SCORE,
-                                                PRINCIPAL_FINDINGS,
-                                                METHODOLOGY)
-                VALUES(
-                'User2',
-                16141072,
-                8,
-                'excellent publication great detail',
-                'method 2'
-                );'''
-            ))
+#     cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+#                                                 PUBLICATION_ID,
+#                                                 SCORE,
+#                                                 PRINCIPAL_FINDINGS,
+#                                                 METHODOLOGY)
+#                 VALUES(
+#                 'User2',
+#                 16141072,
+#                 8,
+#                 'excellent publication great detail',
+#                 'method 2'
+#                 );'''
+#             ))
     
-    cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
-                                                PUBLICATION_ID,
-                                                SCORE,
-                                                PRINCIPAL_FINDINGS,
-                                                METHODOLOGY)
-                VALUES(
-                'User3',
-                16141072,
-                0,
-                'worst publication',
-                'method 3'
-                );'''
-            ))
+#     cur.execute(('''INSERT INTO USER_REVIEWS (  USER_ID,
+#                                                 PUBLICATION_ID,
+#                                                 SCORE,
+#                                                 PRINCIPAL_FINDINGS,
+#                                                 METHODOLOGY)
+#                 VALUES(
+#                 'User3',
+#                 16141072,
+#                 0,
+#                 'worst publication',
+#                 'method 3'
+#                 );'''
+#             ))
  
 
 # def del_tables(conn):
@@ -122,7 +122,7 @@ def populate_user_reviews(conn):
 
 if __name__ == "__main__":
     conn = init_connect()
-    populate_user_reviews(conn)
+    #populate_user_reviews(conn)
     conn.commit()
     #populate_db()
 
