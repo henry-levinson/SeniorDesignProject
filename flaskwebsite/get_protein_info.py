@@ -111,7 +111,7 @@ def get_protein_info(protein_id):
                     "PUBLICATION_NAME": pub_name,
                     "PUBLICATION_ID": pub_id,
                     "AUTHORS": authors,
-                    "SCORE": -1
+                    "SCORE": 0
                 })
                 pubs_df_list.append(pub_df)
 
@@ -131,4 +131,5 @@ if __name__ == "__main__":
     # protein_id = "123"
     protein_info = get_protein_info(protein_id)
     df = info_to_dataframe(protein_info)
-    print(protein_info[0])
+    for key, val in protein_info[0].items():
+        print(key+":\t", val[0])
