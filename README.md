@@ -1,12 +1,14 @@
-#Senior Design Project#
+# Senior Design Project
 
-##Prerequisites##
+## Prerequisites
 Before you can run this application, you will need to have the following installed:
-Markup : *[Python 3.7 or higher](https://www.python.org/downloads/)
-*Flask
-*PostgreSQL
+* [Python 3.7 or higher](https://www.python.org/downloads/)
+* [Flask](https://flask.palletsprojects.com/en/2.1.x/)
+* [PostgreSQL](https://www.postgresql.org/)
+You can install Flask and any other Python packages required by this application by running the following command in your command prompt or terminal:
+`pip install -r requirements.txt`
 
-##Installation##
+## Installation
  Provide instructions for installing the necessary software, libraries, and packages required to run the project.
  Include a link to the requirement.txt file if it exists.
 ##Database Setup
