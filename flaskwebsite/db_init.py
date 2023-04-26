@@ -67,7 +67,7 @@ def create_tables(conn):
     conn.commit()
 
 
-def populate_db():
+def populate_db(offset = 0):
     """Populate database with protein information and publication information"""
     host=os.environ['DATABASE_HOST']
     database_name=os.environ['DATABASE_NAME']
@@ -77,9 +77,7 @@ def populate_db():
 
     engine = create_engine(f'postgresql://{username}:{password}@{host}:{port}/{database_name}')
 
-    offset = 0
-    # offset = random.randint(0, 30000)  #used for testing
-    size = 500      # size 500 reccommended by website, smaller value for testing
+    size = 500      # batch size 500 reccommended by website
     while True:
         requestURL = f"https://www.ebi.ac.uk/proteins/api/proteins?offset={offset}&size={size}&seqLength=0-100000"
         print("Get successful with offset", offset)
@@ -105,7 +103,7 @@ def populate_db():
         if offset > int(r.headers["X-Pagination-TotalRecords"]):
             break
 
-        if offset >= 1000:
+        if offset >= 2000:
             break #used for testing
 
 
