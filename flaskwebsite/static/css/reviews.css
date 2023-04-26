@@ -32,16 +32,16 @@
   overflow-x: auto;
 }
 
-/* Styling for the search form container */
-.search-form {
+/* Styling for the review form container */
+.review-form {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
 }
 
-/* Styling for the input field in the search form */
-.search-form input[type="text"] {
+/* Styling for the input field in the review form */
+.review-form input[type="text"] {
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -50,8 +50,17 @@
   border-radius: 5px; /* Add rounded corners */
 }
 
-/* Styling for the search button in the search form */
-.search-form button {
+.review-form input[type="number"] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 200px;
+  border-radius: 5px; /* Add rounded corners */
+}
+
+/* Styling for the search button in the review form */
+.review-form button {
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -63,13 +72,17 @@
   border-radius: 5px; /* Add rounded corners */
 }
 
-/* Styling for the placeholder text in the input field */
-.search-form input[type="text"]::placeholder {
+/* Styling for the placeholder text in the input fields */
+.review-form input[type="text"]::placeholder {
   color: #999;
 }
 
-/* Hover effect for the search button */
-.search-form button:hover {
+.review-form input[type="number"]::placeholder {
+  color: #999;
+}
+
+/* Hover effect for the enter button */
+.review-form button:hover {
   background-color: #1d6e87;
 }
 

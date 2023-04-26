@@ -133,3 +133,4 @@ if __name__ == "__main__":
     df = info_to_dataframe(protein_info)
     for key, val in protein_info[0].items():
         print(key+":\t", val[0])
+

@@ -1,34 +1,84 @@
+/* template.css */
+body {
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+  margin: 0; /* Remove default margin for full width */
+}
+
+.container {
+  width: 100%; /* Stretch container to full width */
+}
+
 img {
-    float: left;
-    width: 278.5px;
-    height: 96.5px;
-    background: #555;
-  }
+  float: left;
+  width: 278.5px;
+  height: 96.5px;
+  background: #555;
+  border-radius: 10px; /* Add rounded corners */
+}
 
 ul {
-    list-style-type: none;
-    height: 96.5px;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #34bbe8;
+  list-style-type: none;
+  height: 96.5px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #34bbe8;
+  border-radius: 10px; /* Add rounded corners */
 }
 
 li {
-    float: left;
-    margin: auto;
-    text-align: center;
+  float: left;
+  margin: auto;
+  text-align: center;
 }
 
 li a {
-    display: flex;
-    color: white;
-    text-align: center;
-    padding: 39px 16px;
-    text-decoration: none;
+  display: flex;
+  color: white;
+  text-align: center;
+  padding: 39px 16px;
+  text-decoration: none;
 }
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #1d6e87;
+  background-color: #1d6e87;
 }
+
+h1 {
+  color: #34bbe8;
+  text-align: center;
+  margin-top: 50px;
+}
+
+p {
+  font-size: 20px;
+  color: #333333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+button {
+  background-color: #34bbe8;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px; /* Add rounded corners */
+}
+
+/* Added styles for prettier appearance */
+button:hover {
+  background-color: #1d6e87;
+}
+
